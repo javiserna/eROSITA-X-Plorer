@@ -1,12 +1,12 @@
 # eROSITAViz
 
 ### First step
-Download the package following the next instruction:
+Download the repository and install dependencies following the next instruction:
 
 ```zsh
 $ git clone https://github.com/javiserna/eROSITAViz
 $ cd eROSITAViz
-
+$ python setup.py install
 ```
 ### How to use it?
 If you have the target name, run:
