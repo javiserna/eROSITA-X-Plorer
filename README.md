@@ -1,6 +1,6 @@
 # eROSITAViz
 This repository allows users to explore and analyze eROSITA light curves using the energy band of 0.2-5.0 KeV.
-With just the input of the target's name or coordinates, users can access the available light curve.
+With just the input of the target's name or coordinates, users can access the available light curve in the south hemisphere in eROSITA DR1.
 
 ### First step
 Download the repository and install dependencies following the next instruction:
