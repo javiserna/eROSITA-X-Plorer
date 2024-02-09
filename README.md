@@ -22,5 +22,6 @@ $ python eROSITAViz.py "RA" "DEC"
 
 The eROSITA Light Curve will be displayed. Enjoy exploring!
 
-© Javier Serna (Feb 2024)
+© Instituto de Astronomía / UNAM (Ensenada, B.C, Mexico)
+Javier Serna (Feb 2024)
 
