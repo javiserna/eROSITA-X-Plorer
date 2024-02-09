@@ -1,7 +1,5 @@
 # eROSITAViz
 
-© Javier Serna (Feb 2024)
-
 ### First step
 Download package following the next instruction:
 
@@ -21,3 +19,7 @@ Alternatively, if you have the coordinates RA, DEC, run:
 ```zsh
 $ python eROSITAViz.py "RA" "DEC"
 ```
+eROSITA Light Curve will be displayed. Enjoy exploring!
+
+© Javier Serna (Feb 2024)
+
