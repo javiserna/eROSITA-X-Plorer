@@ -14,7 +14,7 @@ $ python setup.py install
 If you have the target name, run:
 
 ```zsh
-$ python eROSITAViz.py "Star_name"
+$ python erositaviz.py "Star_name"
 ```
 Alternatively, if you have the coordinates RA, DEC, run:
 
