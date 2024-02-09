@@ -19,7 +19,7 @@ $ python erositaviz.py "Star_name"
 Alternatively, if you have the coordinates RA, DEC, run:
 
 ```zsh
-$ python eROSITAViz.py "RA" "DEC"
+$ python erositaviz.py "RA" "DEC"
 ```
 
 The eROSITA Light Curve will be displayed. Enjoy exploring!
