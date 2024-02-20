@@ -1,9 +1,10 @@
 # eROSITAViz
-This repository allows users to explore and analyze eROSITA light curves in three energy bands 0.2-0.6 KeV, 0.2-0.6 KeV, and 2.3-5.0 KeV.
-With just the input of the target's name or coordinates, users can access the available light curve in the south hemisphere of eROSITA DR1.
+This repository offers a quick and convenient way to visualize light curves and spectra from eROSITA DR1.
+
+eROSITAViz enables users to explore eROSITA light curves and spectra across the energy band: 0.2-10 KeV. With just the input of the target's name or coordinates, users can access available data.
 
 ### First step
-Download the repository and install dependencies following the next instruction:
+To get started, follow these steps to download the repository and install the required dependencies:
 
 ```zsh
 $ git clone https://github.com/javiserna/eROSITAViz
@@ -11,6 +12,8 @@ $ cd eROSITAViz
 $ python setup.py install
 ```
 ### How to use it?
+Once you have installed the dependencies, you can use the tool as follows:
+
 If you have the target name, run:
 
 ```zsh
@@ -22,9 +25,9 @@ Alternatively, if you have the coordinates RA, DEC, run:
 $ python erositaviz.py "RA" "DEC"
 ```
 
-The eROSITA Light Curve will be displayed. Enjoy exploring!
+This will display the eROSITA light curve for the specified target. Enjoy exploring!
 
-© Instituto de Astronomía / UNAM (Ensenada, B.C, Mexico)
+### Acknowledgements
+This project was developed and maintained by Javier Serna, Instituto de Astronomía, UNAM (Ensenada, B.C, Mexico).
 
-Javier Serna (Feb 2024)
-
+© 2024
