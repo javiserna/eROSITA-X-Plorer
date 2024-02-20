@@ -8,7 +8,7 @@ from astropy.io import fits
 import matplotlib.pyplot as plt
 from astroquery.mast import Catalogs
 
-class lightcurve:
+class spectra:
     def __init__(self, ra=None, dec=None, target_name=None, radius=None):
         self.ra = ra
         self.dec = dec
@@ -33,7 +33,14 @@ class lightcurve:
     def extract_tar_LC(self, tar_file, extract_dir, file_name):
         with tarfile.open(tar_file, 'r:xz') as tar:
             for member in tar.getmembers():
-                if "020_LightCurve" in member.name:# and file_name[5:11] in member.name:
+                if "020_SourceSpec" in member.name:# and file_name[5:11] in member.name:
+                    tar.extract(member, path=extract_dir)
+                    return os.path.join(extract_dir, member.name)
+
+    def extract_tar_LC2(self, tar_file, extract_dir, file_name):
+        with tarfile.open(tar_file, 'r:xz') as tar:
+            for member in tar.getmembers():
+                if "020_RMF" in member.name:# and file_name[5:11] in member.name:
                     tar.extract(member, path=extract_dir)
                     return os.path.join(extract_dir, member.name)
 
@@ -71,7 +78,7 @@ class lightcurve:
             else:
                 print("Target not found in eROSITA DR1!")
                 return None
-            
+
         else:
             print("Target not found in eROSITA DR1!")
             return None
@@ -89,32 +96,40 @@ class lightcurve:
 
             # Extract LC from the downloaded tar file
             fits = self.extract_tar_LC(file_path, product_dir, file_name)
-            print(fits)
+            fits_ = self.extract_tar_LC2(file_path, product_dir, file_name)
+            print(fits, fits_)
 
         else:
             print('Files are already downloaded.')
 
             # Extract LC from the downloaded tar file
             fits = self.extract_tar_LC(file_path, product_dir, file_name)
+            fits_ = self.extract_tar_LC2(file_path, product_dir, file_name)
 
-        return fits
+        return fits, fits_
 
-    def plotter(self, fits_path):
+    def plotter(self, fits_path, fits_path2):
         with fits.open(fits_path) as hdul:
-            sec2day = 1.15741e-5
-            TIME=hdul[1].data.TIME*sec2day
-            RATE_1=(hdul[1].data.RATE)[:,0] #0.2-0.6 KeV
-            RATE_2=(hdul[1].data.RATE)[:,1] #0.6-2.3 KeV
-            RATE_3=(hdul[1].data.RATE)[:,2] #2.3-5.0 KeV
-            RATE_1_ERR=(hdul[1].data.RATE_ERR)[:,0] #0.2-0.6 KeV
-            RATE_2_ERR=(hdul[1].data.RATE_ERR)[:,1] #0.6-2.3 KeV
-            RATE_3_ERR=(hdul[1].data.RATE_ERR)[:,2] #2.3-5.0 KeV
+            with fits.open(fits_path2) as hdul2:
+                E_MIN=hdul2[2].data['E_MIN']
+                E_MAX=hdul2[2].data['E_MAX']
+                COUNTS=hdul[1].data.COUNTS #0.2-10 KeV
+                #COUNTS_1=hdul[1].data.COUNTS_P1 #0.2-0.6 KeV
+                #COUNTS_2=hdul[1].data.COUNTS_P2 #0.6-2.3 KeV
+                #COUNTS_3=hdul[1].data.COUNTS_P3 #2.3-5.0 KeV
+                #COUNTS_4=hdul[1].data.COUNTS_P4 #5.0-10 KeV
 
-            plt.figure(1)
-            plt.errorbar(TIME, RATE_1, xerr=None, yerr=RATE_1_ERR, label="0.2-0.6 keV", fmt='o', ls='--', capsize=5, capthick=1)
-            plt.errorbar(TIME, RATE_2,  xerr=None, yerr=RATE_2_ERR, label="0.6-2.3 keV", fmt='o', ls='--', capsize=5, capthick=1)
-            plt.errorbar(TIME, RATE_3,  xerr=None, yerr=RATE_3_ERR, label="2.3-5.0 keV", fmt='o', ls='--', capsize=5, capthick=1)
-            plt.legend()
-            plt.ylim(0,)
-            plt.xlabel('Time (days)')
-            plt.ylabel('Count rate (cts/sec)')
+                plt.figure(2)
+                plt.plot(E_MIN+(E_MAX-E_MIN)/2, COUNTS, '.-',  label="0.2-10.0 KeV")
+                #plt.scatter(CHANNEL, COUNTS_1, label="0.2-0.6 KeV")
+                #plt.scatter(CHANNEL, COUNTS_2, label="0.6-2.3 KeV")
+                #plt.scatter(CHANNEL, COUNTS_3, label="2.3-5.0 KeV")
+                #plt.scatter(CHANNEL, COUNTS_4, label="5.0-10.0 KeV")
+                plt.legend()
+                plt.xscale('log')
+                tick_values = [0.2, 0.5, 1, 2, 5, 10]
+                plt.xticks(tick_values, tick_values)
+                plt.ylim(0,)
+                plt.xlim(0.1,)
+                plt.xlabel('Energy (keV)')
+                plt.ylabel('Counts')
