@@ -3,7 +3,7 @@
 # eROSITAViz
 This repository offers a quick and convenient way to visualize light curves and spectra from eROSITA DR1.
 
-eROSITAViz enables users to explore eROSITA light curves and spectra across the energy band: 0.2-10 KeV. With just the input of the target's name or coordinates, users can access available data.
+eROSITAViz enables users to explore the available eROSITA data with just the input of the target's name or coordinates.
 
 ### First step
 To get started, follow these steps to download the repository and install the required dependencies:
