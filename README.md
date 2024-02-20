@@ -1,3 +1,5 @@
+<img src="https://github.com/javiserna/eROSITAViz/blob/main/eROSITAViz.png?raw=true"/>
+
 # eROSITAViz
 This repository offers a quick and convenient way to visualize light curves and spectra from eROSITA DR1.
 
