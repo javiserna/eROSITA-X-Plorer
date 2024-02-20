@@ -29,7 +29,7 @@ $ python erositaviz.py "RA" "DEC"
 This will display the eROSITA light curve for the specified target. Enjoy exploring!
 
 For instance, the star "AB Dor" is a strong X-ray source, so an active star.
-<img src="https://github.com/javiserna/eROSITAViz/blob/main/demo/AB_Dor_eRASS1_LC.png?raw=true" width="400"/> <img src="https://github.com/javiserna/eROSITAViz/blob/main/demo/AB_Dor_eRASS1_spec.png?raw=true" width="400"/>
+<img src="https://github.com/javiserna/eROSITAViz/blob/main/demo/AB_Dor_eRASS1_LC.png?raw=true" width="400"/> <img src="https://github.com/javiserna/eROSITAViz/blob/main/demo/AB_Dor_eRASS1_Spec.png?raw=true" width="400"/>
 
 
 ### Acknowledgements
