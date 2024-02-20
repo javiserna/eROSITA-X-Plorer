@@ -16,7 +16,7 @@ $ python setup.py install
 ### How to use it?
 Once you have installed the dependencies, you can use the tool as follows:
 
-If you have the target name, run:
+If you have the target name (Only SIMBAD Names), run:
 
 ```zsh
 $ python erositaviz.py "Star_name"
