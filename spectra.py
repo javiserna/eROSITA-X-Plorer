@@ -7,6 +7,8 @@ import tarfile
 from astropy.io import fits
 import matplotlib.pyplot as plt
 from astroquery.mast import Catalogs
+import warnings
+warnings.filterwarnings("ignore")
 
 class spectra:
     def __init__(self, ra=None, dec=None, target_name=None, radius=None):
@@ -31,18 +33,30 @@ class spectra:
             return None, None
 
     def extract_tar_LC(self, tar_file, extract_dir, file_name):
-        with tarfile.open(tar_file, 'r:xz') as tar:
-            for member in tar.getmembers():
-                if "020_SourceSpec" in member.name:# and file_name[5:11] in member.name:
-                    tar.extract(member, path=extract_dir)
-                    return os.path.join(extract_dir, member.name)
+        try:
+            with tarfile.open(tar_file, 'r:xz') as tar:
+                for member in tar.getmembers():
+                    if "020_SourceSpec" in member.name:# and file_name[5:11] in member.name:
+                        tar.extract(member, path=extract_dir)
+                        return os.path.join(extract_dir, member.name)
+        except tarfile.ReadError as e:
+            print("Unfortunately the eROSITA spectra datafile is corrupted. Please try to search for another target")
+        except Exception as e:
+            print("An unexpected error occurred during uncompressing file. Please try with another target")
+        return None
 
     def extract_tar_LC2(self, tar_file, extract_dir, file_name):
-        with tarfile.open(tar_file, 'r:xz') as tar:
-            for member in tar.getmembers():
-                if "020_RMF" in member.name:# and file_name[5:11] in member.name:
-                    tar.extract(member, path=extract_dir)
-                    return os.path.join(extract_dir, member.name)
+        try:
+            with tarfile.open(tar_file, 'r:xz') as tar:
+                for member in tar.getmembers():
+                    if "020_RMF" in member.name:# and file_name[5:11] in member.name:
+                        tar.extract(member, path=extract_dir)
+                        return os.path.join(extract_dir, member.name)
+        except tarfile.ReadError as e:
+            print("Unfortunately the eROSITA RMF datafile is corrupted. Please try to search another target")
+        except Exception as e:
+            print("An unexpected error occurred during uncompressing file. Please try with another target")
+        return None
 
     def cone_search(self):
         self.ra, self.dec = self.get_coordinates()
@@ -98,17 +112,29 @@ class spectra:
             fits = self.extract_tar_LC(file_path, product_dir, file_name)
             fits_ = self.extract_tar_LC2(file_path, product_dir, file_name)
             print(fits, fits_)
+            if fits and fits_:
+                return fits, fits_
+            else:
+                #print("Error extracting fits file.")
+                return None, None
 
         else:
-            print('Files are already downloaded.')
+            #print('Files are already downloaded.')
 
             # Extract LC from the downloaded tar file
             fits = self.extract_tar_LC(file_path, product_dir, file_name)
             fits_ = self.extract_tar_LC2(file_path, product_dir, file_name)
-
-        return fits, fits_
+            if fits and fits_:
+                return fits, fits_
+            else:
+                #print("Error extracting fits file.")
+                return None, None
 
     def plotter(self, fits_path, fits_path2):
+        if fits_path is None:
+            #print("Error: No FITS file path provided.")
+            return
+
         with fits.open(fits_path) as hdul:
             with fits.open(fits_path2) as hdul2:
                 E_MIN=hdul2[2].data['E_MIN']
@@ -132,4 +158,18 @@ class spectra:
                 plt.ylim(0,)
                 plt.xlim(0.1,)
                 plt.xlabel('Energy (keV)')
-                plt.ylabel('Counts')
+                plt.ylabel(r'Counts$~s^{-1}~keV^{-1}$')
+                plt.title(f'{self.target_name}', fontsize=15)
+                plt.tight_layout()
+                current_directory = os.getcwd()
+
+                save_directory = os.path.join(current_directory, "downloads")
+
+                if not os.path.exists(save_directory):
+                    os.makedirs(save_directory)
+                plt.savefig(os.path.join(save_directory, f"{self.target_name}_SP.png"), dpi=300)
+                spectra_file = os.path.join(save_directory, f"{self.target_name}_SP.txt")
+                np.savetxt(spectra_file, np.c_[E_MIN+(E_MAX-E_MIN)/2, COUNTS], header="ENERGY(keV) COUNTS")
+                #plt.show()
+                #plt.cla()
+                #plt.close()

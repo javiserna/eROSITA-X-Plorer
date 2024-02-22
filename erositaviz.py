@@ -2,6 +2,8 @@ import sys, os, ast
 import matplotlib.pyplot as plt
 from lightcurve import lightcurve
 from spectra import spectra
+import warnings
+warnings.filterwarnings("ignore")
 
 if __name__ == "__main__":
 

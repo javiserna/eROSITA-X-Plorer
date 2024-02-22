@@ -7,6 +7,8 @@ import tarfile
 from astropy.io import fits
 import matplotlib.pyplot as plt
 from astroquery.mast import Catalogs
+import warnings
+warnings.filterwarnings("ignore")
 
 class lightcurve:
     def __init__(self, ra=None, dec=None, target_name=None, radius=None):
@@ -31,11 +33,17 @@ class lightcurve:
             return None, None
 
     def extract_tar_LC(self, tar_file, extract_dir, file_name):
-        with tarfile.open(tar_file, 'r:xz') as tar:
-            for member in tar.getmembers():
-                if "020_LightCurve" in member.name:# and file_name[5:11] in member.name:
-                    tar.extract(member, path=extract_dir)
-                    return os.path.join(extract_dir, member.name)
+        try:
+            with tarfile.open(tar_file, 'r:xz') as tar:
+                for member in tar.getmembers():
+                    if "020_LightCurve" in member.name:
+                        tar.extract(member, path=extract_dir)
+                        return os.path.join(extract_dir, member.name)
+        except tarfile.ReadError as e:
+            print("Unfortunately the eROSITA light curve datafile is corrupted. Please try to search another target")
+        except Exception as e:
+            print("An unexpected error occurred during uncompressing file. Please try with another target")
+        return None
 
     def cone_search(self):
         self.ra, self.dec = self.get_coordinates()
@@ -71,7 +79,7 @@ class lightcurve:
             else:
                 print("Target not found in eROSITA DR1!")
                 return None
-            
+
         else:
             print("Target not found in eROSITA DR1!")
             return None
@@ -89,17 +97,29 @@ class lightcurve:
 
             # Extract LC from the downloaded tar file
             fits = self.extract_tar_LC(file_path, product_dir, file_name)
-            print(fits)
+            if fits:
+                return fits
+            else:
+                #print("Error extracting fits file.")
+                return None
+
 
         else:
             print('Files are already downloaded.')
 
             # Extract LC from the downloaded tar file
             fits = self.extract_tar_LC(file_path, product_dir, file_name)
-
-        return fits
+            if fits:
+                return fits
+            else:
+                #print("Error extracting fits file.")
+                return None
 
     def plotter(self, fits_path):
+        if fits_path is None:
+            #print("Error: No FITS file path provided.")
+            return
+
         with fits.open(fits_path) as hdul:
             sec2day = 1.15741e-5
             TIME=hdul[1].data.TIME*sec2day
@@ -118,3 +138,17 @@ class lightcurve:
             plt.ylim(0,)
             plt.xlabel('Time (days)')
             plt.ylabel('Count rate (cts/sec)')
+            plt.title(f'{self.target_name}', fontsize=15)
+            plt.tight_layout()
+            current_directory = os.getcwd()
+
+            save_directory = os.path.join(current_directory, "downloads")
+
+            if not os.path.exists(save_directory):
+                os.makedirs(save_directory)
+            plt.savefig(os.path.join(save_directory, f"{self.target_name}_LC.png"), dpi=300)
+            lightcurve_file = os.path.join(save_directory, f"{self.target_name}_LC.txt")
+            np.savetxt(lightcurve_file, np.c_[TIME, RATE_1, RATE_1_ERR, RATE_2, RATE_2_ERR, RATE_3, RATE_3_ERR], header="TIME(days) RATE_1 RATE_1_ERR RATE_2 RATE_2_ERR RATE_3 RATE_3_ERR")
+            #plt.show()
+            #plt.cla()
+            #plt.close()
