@@ -1,7 +1,7 @@
 <img src="https://github.com/javiserna/eROSITAViz/blob/main/eROSITAViz.png?raw=true" width="400"/>
 
 # eROSITAViz
-This repository offers a quick and convenient way to visualize light curves and spectra from eROSITA DR1.
+This repository offers a quick and convenient way to visualize light curves and spectra from eROSITA DR1. Additionally, it provides users with these data files in *txt format.
 
 eROSITAViz enables users to explore the available eROSITA data with just the input of the target's name or coordinates.
 
@@ -26,7 +26,8 @@ Alternatively, if you have the coordinates RA, DEC, run:
 ```zsh
 $ python erositaviz.py "RA" "DEC"
 ```
-This will display the eROSITA light curve for the specified target. Enjoy exploring!
+This will display the eROSITA light curve and spectra for the specified target.
+For your record, the *txt data files and plots are saved in the "downloads" folder in the working directory. Enjoy exploring eROSITA data!
 
 ### Example
 The star "AB Dor" is known to be a strong X-ray source, so an active star. The eROSITA products are:
