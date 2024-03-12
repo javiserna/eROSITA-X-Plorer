@@ -1,5 +1,7 @@
 <img src="https://github.com/javiserna/eROSITAViz/blob/main/eROSITAViz.png?raw=true" width="400"/>
+
 [![DOI](https://zenodo.org/badge/754483135.svg)](https://zenodo.org/doi/10.5281/zenodo.10807266)
+
 
 # eROSITAViz
 This repository offers a quick and convenient way to visualize light curves and spectra from eROSITA DR1. Additionally, it provides users with these data files in *txt format.
