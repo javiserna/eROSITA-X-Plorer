@@ -9,11 +9,11 @@ if __name__ == "__main__":
 
     if len(sys.argv) > 1:
         if len(sys.argv) == 2:  # If only one argument is provided
-            erosita_downloader = lightcurve(target_name=sys.argv[1], radius=0.016)  # Set default radius or adjust accordingly
-            erosita_downloader_ = spectra(target_name=sys.argv[1], radius=0.016)  # Set default radius or adjust accordingly
+            erosita_downloader = lightcurve(target_name=sys.argv[1], radius=0.0666667)  # Set default radius or adjust accordingly (4 arcsec)
+            erosita_downloader_ = spectra(target_name=sys.argv[1], radius=0.0666667)  # Set default radius or adjust accordingly (4 arcsec)
         elif len(sys.argv) == 3:  # If two arguments are provided
-            erosita_downloader = lightcurve(ra=sys.argv[1], dec=sys.argv[2], radius=0.016)  # Set default radius or adjust accordingly
-            erosita_downloader_ = spectra(ra=sys.argv[1], dec=sys.argv[2], radius=0.016)  # Set default radius or adjust accordingly
+            erosita_downloader = lightcurve(ra=sys.argv[1], dec=sys.argv[2], radius=0.0666667)  # Set default radius or adjust accordingly (4 arcsec)
+            erosita_downloader_ = spectra(ra=sys.argv[1], dec=sys.argv[2], radius=0.0666667)  # Set default radius or adjust accordingly (4 arcsec)
         else:
             raise ValueError("Invalid number of arguments. Please provide either target_name={str} or ra={float}, dec={float}.")
 
