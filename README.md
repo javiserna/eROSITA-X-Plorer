@@ -39,5 +39,8 @@ The star "AB Dor" is known to be a strong X-ray source, so an active star. The e
 
 For more information about the analysis of this scientific case, please refer to https://doi.org/10.1051/0004-6361/202141379
 
+### Important note
+Not all eROSITA DR1 sources have available data products
+
 ### Acknowledgements
 This project was developed and maintained by Javier Serna © 2024
