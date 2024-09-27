@@ -42,5 +42,9 @@ For more information about the analysis of this scientific case, please refer to
 ### Important note
 Not all eROSITA DR1 sources have available data products
 
+### To do list:
+-Download all fits file data products for the user
+-Incorporate the eROSITA upper limit detection level
+
 ### Acknowledgements
 This project was developed and maintained by Javier Serna © 2024
